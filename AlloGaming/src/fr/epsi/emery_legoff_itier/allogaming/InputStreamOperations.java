@@ -1,4 +1,4 @@
-package fr.epsi.emery_itier.allogaming;
+package fr.epsi.emery_legoff_itier.allogaming;
 
 import java.io.IOException;
 import java.io.InputStream;

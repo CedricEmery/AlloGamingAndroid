@@ -1,7 +1,7 @@
-package fr.epsi.emery_itier.allogaming;
+package fr.epsi.emery_legoff_itier.allogaming;
 
+import fr.epsi.emery_itier.allogaming.R;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,16 +9,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.os.Build;
 
 public class MainActivity extends ActionBarActivity {
 
+	private String[] drawerItemsList;
+	private ListView myDrawer;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        AlloGaming alloGaming = new AlloGaming();
+        setContentView(R.layout.game_activity);
+        
+        drawerItemsList = getResources().getStringArray(R.array.developers);
+		myDrawer = (ListView) findViewById(R.id.my_drawer);
+		myDrawer.setAdapter(new ArrayAdapter<String>(this, R.layout.content_sliding_menu, drawerItemsList));
+        
+        //AlloGaming alloGaming = new AlloGaming();
         
         /*
         setContentView(R.layout.activity_main);

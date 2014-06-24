@@ -1,4 +1,4 @@
-package fr.epsi.emery_itier.allogaming;
+package fr.epsi.emery_legoff_itier.allogaming;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -10,6 +10,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import fr.epsi.emery_itier.allogaming.R;
+import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -18,20 +20,23 @@ public class GameListView extends ActionBarActivity {
 
 	protected ListView m_lv;
 	
-	public GameListView(){
-		//setContentView(R.layout.game_list_view);
-		setContentView(getResources().);
+	@Override
+	protected void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		
+		setContentView(R.layout.game_activity);
         
         // Recuperation de la ListView
-		m_lv = (ListView)findViewById(R.layout.game_list_view);
+		m_lv = (ListView)findViewById(R.layout.game_activity);
 
         // Creation d'un adapter à l'aide d'un tableau de String (myList)
 		List<Game> gameList = GetGameList();
-        ArrayAdapter<Game> myArrayAdapter = new ArrayAdapter<Game>(this, R.layout.game_list_view, gameList);
+        ArrayAdapter<Game> myArrayAdapter = new ArrayAdapter<Game>(this, R.layout.game_activity, gameList);
 
         // Affectation de l'adapter a la liste view
         m_lv.setAdapter(myArrayAdapter);
 	}
+	
 	
 	protected void LoadListView(){
 		
