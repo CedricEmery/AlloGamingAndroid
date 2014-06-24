@@ -5,12 +5,31 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     
-    
-    <string-array name="developers">
-        <item>Développé par :</item>
+    <string-array name="items">
         <item>EMERY Cédric</item>
         <item>LEGOFF Cédric</item>
         <item>ITIER Louis</item>
+    </string-array>
+    
+    <string name="mon_texte">Mon texte</string>
+    <string name="ouverture">Ouverture</string>
+    <string name="fermeture">Fermeture</string>
+    <string name="titre">AlloGaming</string>
+    <string name="titre_apres_ouverture">Développé par :</string>
+    
+    <string name="spinner_title">Select Platform\'s Game</string>
+    
+    <string name="country_prompt">Choose a country</string>
+
+    <string-array name="country_arrays">
+        <item>Malaysia</item>
+        <item>United States</item>
+        <item>Indonesia</item>
+        <item>France</item>
+        <item>Italy</item>
+        <item>Singapore</item>
+        <item>New Zealand</item>
+        <item>India</item>
     </string-array>
 
 </resources>

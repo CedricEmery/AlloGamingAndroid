@@ -8,9 +8,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="fr.epsi.emery_legoff_itier.allogaming.MainActivity$PlaceholderFragment" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+    <Spinner
+        android:id="@+id/choixPlateform"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"         
+        android:prompt="@string/spinner_title"/>
 
 </RelativeLayout>

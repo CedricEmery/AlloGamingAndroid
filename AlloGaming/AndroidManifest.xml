@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="fr.epsi.emery_itier.allogaming"
+    package="fr.epsi.emery_legoff_itier.allogaming"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="14"
         android:targetSdkVersion="19" />
-
+    
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
