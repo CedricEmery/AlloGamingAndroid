@@ -1,9 +1,6 @@
 package fr.epsi.emery_legoff_itier.allogaming;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -20,10 +17,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import fr.epsi.emery_legoff_itier.allogaming.R;
-import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class GameListManagement{
@@ -33,72 +26,6 @@ public class GameListManagement{
 	protected GameListManagement(){
 		
 	}
-	
-	/*protected List<Game> GetGameList(){
-		
-		List<Game> gameList = new ArrayList<Game>();
-		
-		String myurl= "http://192.168.1.200:8080/AlloGamingAPI/webresources/translator/GetGamesList?name=halo";
-
-		InputStream in = null;
-		int http_status;
-		HttpURLConnection conn = null;
-		
-		try {
-			URL url = new URL(myurl);
-			
-			conn = (HttpURLConnection) url.openConnection();
-
-		    // this opens a connection, then sends GET & headers 
-		    in = conn.getInputStream(); 
-
-		    // can't get status before getInputStream.  If you try, you'll
-		    //  get a nasty exception.
-		    http_status = conn.getResponseCode();
-
-		    // better check it first
-		    if (http_status / 100 != 2) {
-		      // redirects, server errors, lions and tigers and bears! Oh my!
-		    }
-		  } catch (IOException e) {
-		    // Something horrible happened, as in a network error, or you
-		    //  foolishly called getResponseCode() before HUC was ready.
-		    // Essentially no methods of on "conn" now work, so don't go
-		    //  looking for help there.
-		  }
-		  
-		  try {
-		    // now you can try to consume the data
-			  String result = InputStreamOperations.InputStreamToString(in);
-			// On récupère le JSON complet
-	            JSONObject jsonObject = null;
-				try {
-					jsonObject = new JSONObject(result);
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	            
-	            // On récupère le tableau d'objets qui nous concernent
-	            JSONArray array = new JSONArray(jsonObject.getString("Game"));
-	            
-	            // Pour tous les objets on récupère les infos
-	            for (int i = 0; i < array.length(); i++) {
-	            	
-	                Game newGame = LoadNewGame(array.getString(i));
-	                gameList.add(newGame); 
-	            }
-		  } catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-		    // Do like Mom said and practice good hygiene.
-		    conn.disconnect(); 
-		  }
-        
-        // On retourne la liste des jeux
-        return gameList;
-	}*/
 	
 	protected List<Game> GetGameList(){
 		
@@ -112,7 +39,7 @@ public class GameListManagement{
 		try {
 			URL url = new URL(myurl);
 			
-			HttpGet httpget = new HttpGet(url.toURI());
+			HttpGet httpget = new HttpGet("http://www.vogella.com");
 			httpclient = new DefaultHttpClient();
 			HttpResponse httpResponse = httpclient.execute(httpget);
 			 

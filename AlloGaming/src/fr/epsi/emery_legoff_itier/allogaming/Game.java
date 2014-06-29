@@ -1,6 +1,5 @@
 package fr.epsi.emery_legoff_itier.allogaming;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
