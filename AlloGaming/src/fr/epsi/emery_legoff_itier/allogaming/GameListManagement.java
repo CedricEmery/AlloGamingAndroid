@@ -34,15 +34,12 @@ public class GameListManagement{
 		
 	}
 	
-	protected List<Game> GetGameList(){
+	/*protected List<Game> GetGameList(){
 		
 		List<Game> gameList = new ArrayList<Game>();
 		
 		String myurl= "http://192.168.1.200:8080/AlloGamingAPI/webresources/translator/GetGamesList?name=halo";
-		
-		String response = null;
-		HttpClient httpclient = null;
-		
+
 		InputStream in = null;
 		int http_status;
 		HttpURLConnection conn = null;
@@ -101,9 +98,9 @@ public class GameListManagement{
         
         // On retourne la liste des jeux
         return gameList;
-	}
+	}*/
 	
-	/*protected List<Game> GetGameList(){
+	protected List<Game> GetGameList(){
 		
 		List<Game> gameList = new ArrayList<Game>();
 		
@@ -157,7 +154,7 @@ public class GameListManagement{
         
         // On retourne la liste des jeux
         return gameList;
-	}*/
+	}
 	
 	protected Game LoadNewGame(String sGameInformation) throws JSONException{
 		
