@@ -1,6 +1,10 @@
 package fr.epsi.emery_legoff_itier.allogaming;
 
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -31,55 +35,46 @@ public class GameListManagement{
 		
 		List<Game> gameList = new ArrayList<Game>();
 		
-		String myurl= "http://192.168.1.200:8080/AlloGamingAPI/webresources/translator/GetGamesList?name=halo";
+		String myUrl= "http://192.168.1.200:8080/AlloGamingAPI/webresources/translator/GetGamesList/halo";
 		
-		String response = null;
-		HttpClient httpclient = null;
-		
-		try {
-			URL url = new URL(myurl);
-			
-			HttpGet httpget = new HttpGet("http://www.vogella.com");
-			httpclient = new DefaultHttpClient();
-			HttpResponse httpResponse = httpclient.execute(httpget);
-			 
-			final int statusCode = httpResponse.getStatusLine().getStatusCode();
-			
-			if (statusCode != HttpStatus.SC_OK) {
-				throw new Exception("Got HTTP " + statusCode + " (" + httpResponse.getStatusLine().getReasonPhrase() + ')');
-			}
-			 
-			response = EntityUtils.toString(httpResponse.getEntity(), HTTP.UTF_8);
-			
-			// On récupère le JSON complet
-            JSONObject jsonObject = new JSONObject(response);
-            
-            // On récupère le tableau d'objets qui nous concernent
-            JSONArray array = new JSONArray(jsonObject.getString("Game"));
-            
-            // Pour tous les objets on récupère les infos
-            for (int i = 0; i < array.length(); i++) {
-            	
-                Game newGame = LoadNewGame(array.getString(i));
-                gameList.add(newGame); 
-            }
-			 
-			} catch (MalformedURLException e1) {
-				
-				e1.printStackTrace();
-			}catch (Exception e) {
-				
-				e.printStackTrace();			 
-			} finally {
-				
-				if (httpclient != null) {
-					
-					httpclient.getConnectionManager().shutdown();
-					httpclient = null;
-			}
-		}
+		URL url;
+        HttpURLConnection conn;
+        BufferedReader rd;
+        String line;
+        String result = "";
+        try {
+           url = new URL(myUrl);
+           conn = (HttpURLConnection) url.openConnection();
+           conn.setRequestMethod("GET");
+
+           conn.setDoInput(true);
+
+           conn.connect();
+
+           rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+           while ((line = rd.readLine()) != null) {
+              result += line;
+           }
+           rd.close();
+        } catch (IOException e) {
+           e.printStackTrace();
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
         
-        // On retourne la liste des jeux
+     // On récupère le JSON complet
+       /* JSONObject jsonObject = new JSONObject(response);
+        
+        // On récupère le tableau d'objets qui nous concernent
+        JSONArray array = new JSONArray(jsonObject.getString("Game"));
+        
+        // Pour tous les objets on récupère les infos
+        for (int i = 0; i < array.length(); i++) {
+        	
+            Game newGame = LoadNewGame(array.getString(i));
+            gameList.add(newGame); 
+        }
+        // On retourne la liste des jeux*/
         return gameList;
 	}
 	
