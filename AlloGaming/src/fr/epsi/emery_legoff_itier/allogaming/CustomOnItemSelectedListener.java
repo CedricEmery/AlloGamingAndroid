@@ -9,7 +9,7 @@ public class CustomOnItemSelectedListener implements OnItemSelectedListener {
  
   public void onItemSelected(AdapterView<?> parent, View view, int pos,long id) {
 	Toast.makeText(parent.getContext(), 
-		"OnItemSelectedListener : " + parent.getItemAtPosition(pos).toString(),
+		"Voici les jeux relatif à la plateforme : " + parent.getItemAtPosition(pos).toString(),
 		Toast.LENGTH_SHORT).show();
   }
  
