@@ -41,7 +41,6 @@ public class GameAdapter extends BaseAdapter {
 	 
 	        holder.GameName = (TextView)convertView.findViewById(R.id.GameName);
 	        holder.GamePlatform = (TextView)convertView.findViewById(R.id.GamePlatform);
-	        holder.GameRating = (TextView)convertView.findViewById(R.id.GameRating);
 	 
 	        convertView.setTag(holder);
 	    } else {
@@ -50,7 +49,6 @@ public class GameAdapter extends BaseAdapter {
 	 
 	    holder.GameName.setText(GameList.get(position).getGameName());
 	    holder.GamePlatform.setText(GameList.get(position).getGamePlatform());
-	    holder.GameRating.setText(GameList.get(position).getGameRating());
 	 
 	    return convertView;
 	}
@@ -58,7 +56,6 @@ public class GameAdapter extends BaseAdapter {
 	private class ViewHolder {
 	    TextView GameName;
 	    TextView GamePlatform;
-	    TextView GameRating;
 	}
 	 
 	public GameAdapter(Context context,List<Game> GameList) {

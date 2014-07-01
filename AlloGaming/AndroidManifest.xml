@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest package="fr.epsi.emery_legoff_itier.allogaming"
     android:versionCode="1"
-    android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:screenOrientation="portrait">
+    
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -14,16 +16,21 @@
         android:allowBackup="true"
         android:icon="@drawable/app_icon_60"
         android:label="@string/app_name"
-        android:theme="@style/AppBaseTheme">
+        android:theme="@style/AppBaseTheme"
+        android:screenOrientation="portrait">
         <activity
             android:name="fr.epsi.emery_legoff_itier.allogaming.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="fr.epsi.emery_legoff_itier.allogaming.GameCvActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

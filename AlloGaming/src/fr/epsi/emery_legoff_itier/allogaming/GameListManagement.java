@@ -1,105 +1,154 @@
 package fr.epsi.emery_legoff_itier.allogaming;
 
-
 import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class GameListManagement{
+public class GameListManagement extends AsyncTask{
 
-	protected ListView m_lv;
+   private Context context;
+   private List<Game> gameList = new ArrayList<Game>();
+   private ListView listeJeux;
+   
+   public GameListManagement(Context context, ListView lv) {
+      this.context = context;
+      this.listeJeux = lv;
+   }
+
+   protected List<Game> GetGameList(){
+		
+	      return gameList;
+   }
+
+   //check Internet conenction.
+   private void checkInternetConenction(){
+      ConnectivityManager check = (ConnectivityManager) this.context.
+      getSystemService(Context.CONNECTIVITY_SERVICE);
+      if (check != null) 
+      {
+         NetworkInfo[] info = check.getAllNetworkInfo();
+         /*if (info != null) 
+            for (int i = 0; i <info.length; i++) 
+            if (info[i].getState() == NetworkInfo.State.CONNECTED)
+            {
+            	Toast.makeText(context, "Internet is connected",
+               Toast.LENGTH_SHORT).show();
+            }*/
+
+      }
+      else{
+         Toast.makeText(context, "not conencted to internet",
+         Toast.LENGTH_SHORT).show();
+          }
+   }
+   
+   protected void onPreExecute(){
+      checkInternetConenction();
+   }
+   
+   @Override
+   protected Object doInBackground(Object... arg0) {
+      try{
+    	  
+         String link = (String)arg0[0];
+         URL url = new URL(link);
+         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+         conn.setReadTimeout(10000);
+         conn.setConnectTimeout(15000);
+         conn.setRequestMethod("GET");
+         conn.setDoInput(true);
+         conn.connect();
+         
+         InputStream is = conn.getInputStream();
+         BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8") );
+         
+         String data = null;
+         String jsonData = "";
+         
+         while ((data = reader.readLine()) != null){
+        	 jsonData += data + "\n";
+         }
+         
+         return jsonData;
+         
+      }catch(Exception e){
+    	  
+         return new String("Exception: " + e.getMessage());
+      }
+   }
+   
+   @Override
+   protected void onPostExecute(Object result){
+	   
+		CreatListGame(result.toString());
+		if(!gameList.isEmpty()){
+
+			GameAdapter adapter = new GameAdapter(this.context, gameList);
+			listeJeux.setAdapter(adapter);
+		}
+		else{
+			Toast.makeText(context, "Aucun jeux ne correspond à ce nom...", Toast.LENGTH_LONG).show();
+		}
+   }
+   
+   protected void CreatListGame(String jsonStr){
+	   JSONObject jsonObject = null;
+		try {
+			jsonObject = new JSONObject(jsonStr);
+		
+	       System.out.println(jsonObject.toString());
+	       // On récupère le tableau d'objets qui nous concernent
+	       
+	       JSONArray array = null;
 	
-	protected GameListManagement(){
+			array = jsonObject.getJSONObject("Data").getJSONArray("Game");
 		
-	}
+	       //System.out.println(array.toString());
+	       for (int i = 0; i < array.length(); i++) {
+	           
+	           Game newGame = null;
+			
+				newGame = LoadNewGame(array.getJSONObject(i));
+			
+	           gameList.add(newGame);
+	       }
+      } catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+      }
+   }
+   
+   protected static Game LoadNewGame(JSONObject sGameInformation) {
+       Game newGame = new Game();
+
+       try {
+    	   
+    	   newGame.setGameId(sGameInformation.getInt("id"));
+	       newGame.setGameName(sGameInformation.getString("GameTitle"));
+	       newGame.setGamePlatform(sGameInformation.getString("Platform"));
+	       
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	
-	protected List<Game> GetGameList(){
-		
-		List<Game> gameList = new ArrayList<Game>();
-		
-		String myUrl= "http://192.168.1.200:8080/AlloGamingAPI/webresources/translator/GetGamesList/halo";
-		
-		URL url;
-        HttpURLConnection conn;
-        BufferedReader rd;
-        String line;
-        String result = "";
-        try {
-           url = new URL(myUrl);
-           conn = (HttpURLConnection) url.openConnection();
-           conn.setRequestMethod("GET");
-
-           conn.setDoInput(true);
-
-           conn.connect();
-
-           rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-           while ((line = rd.readLine()) != null) {
-              result += line;
-           }
-           rd.close();
-        } catch (IOException e) {
-           e.printStackTrace();
-        } catch (Exception e) {
-           e.printStackTrace();
-        }
-        
-     // On récupère le JSON complet
-       /* JSONObject jsonObject = new JSONObject(response);
-        
-        // On récupère le tableau d'objets qui nous concernent
-        JSONArray array = new JSONArray(jsonObject.getString("Game"));
-        
-        // Pour tous les objets on récupère les infos
-        for (int i = 0; i < array.length(); i++) {
-        	
-            Game newGame = LoadNewGame(array.getString(i));
-            gameList.add(newGame); 
-        }
-        // On retourne la liste des jeux*/
-        return gameList;
-	}
-	
-	protected Game LoadNewGame(String sGameInformation) throws JSONException{
-		
-		Game newGame = new Game();
-		
-		// On récupère un objet JSON du tableau
-        JSONObject obj = new JSONObject(sGameInformation);
-		
-        newGame.setGameId(Integer.parseInt(obj.getString("id")));
-        newGame.setGameName(obj.getString("GameTitle"));
-        newGame.setGamePlatform(obj.getString("Platform"));
-        newGame.setGameOverview(obj.getString("Overview"));
-           	
-    	//protected List<String> m_sGameGenreList;
-
-        newGame.setGamePlayerNb(obj.getString("Players"));
-        newGame.setGamePublisher(obj.getString("Publisher"));
-        newGame.setGameDeveloper(obj.getString("Developer"));
-        newGame.setGameReleaseDate(obj.getString("ReleaseDate"));
-        newGame.setGameRating(obj.getString("Rating"));
-    	
-    	//protected List<Image> m_GameImageList;
-        
-        return newGame;
-	}
+	    return newGame;
+   }
 }

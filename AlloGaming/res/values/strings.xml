@@ -32,4 +32,6 @@
         <item>India</item>
     </string-array>
 
+    <string name="mon_ip">http://192.168.1.200:8080</string>
+    
 </resources>
